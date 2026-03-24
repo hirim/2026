@@ -3,18 +3,6 @@ import numpy as np
 from picamera2 import Picamera2
 import time
 
-import RPi.GPIO as GPIO 
-
-redLed = 18 
-greenLed = 23 
-blueLed = 24 
-
-GPIO.setmode(GPIO.BCM) 
-GPIO.setwarnings(False) 
-GPIO.setup(redLed, GPIO.OUT) 
-GPIO.setup(greenLed, GPIO.OUT) 
-GPIO.setup(blueLed, GPIO.OUT) 
-
 def main():
     # Picamera2 초기화 및 설정
     picam2 = Picamera2()
@@ -65,7 +53,7 @@ def main():
         blue = cv2.bitwise_and(bgr, bgr, mask=blueMask)
 
         redPixels = cv2.countNonZero(redMask) 
-       	greenPixels = cv2.countNonZero(greenMask) 
+        greenPixels = cv2.countNonZero(greenMask) 
         bluePixels = cv2.countNonZero(blueMask)
 
         #print(redPixels, greenPixels, bluePixels)
@@ -76,22 +64,21 @@ def main():
 
         if maxValue >= 500: 
             if maxPos == 0 : #redLed 
-                print('red LED on') 
+                print('This is Red Color') 
 
             elif maxPos == 1 : # greenLed 
-                print('green LED on')
+                print('This is Green Color')
  
             elif maxPos == 2 : # blueLed 
-                print('blue LED on')  
+                print('This is Blue Color')  
 
 
         else : 
-            GPIO.output(redLed, GPIO.LOW) 
-            GPIO.output(greenLed, GPIO.LOW) 
-            GPIO.output(blueLed, GPIO.LOW) 
+            print(‘This Color is not red, blue, or green’) 
+          
 
         # 결과를 화면에 출력
-        # cv2.imshow('Orign', frame) # RGB를 cv2로 출력하면 Red와 Blue가 바뀜
+        # cv2.imshow('Origin', frame) # RGB를 cv2로 출력하면 Red와 Blue가 바뀜
         cv2.imshow('Frame', bgr) # 색 변환한 프레임을 출력
 
         # 키 입력을 기다리고 'q'를 누르면 종료
