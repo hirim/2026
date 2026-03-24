@@ -1,32 +1,19 @@
-import RPi.GPIO as GPIO
-import time
+from gpiozero import Button 
+import time 
 
-from picamera2 import Picamera2, Preview
+button = Button(2)
 
-swPin = 14
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(swPin,GPIO.IN,pull_up_down = GPIO.PUD_DOWN)
-
-oldSw = 0
-newSw = 0
-
+oldSw = False 
 cnt = 1
 
-try:
+try: 
     while True:
-        newSw = GPIO.input(swPin)
-        if newSw != oldSw:
+        newSw = button.is_pressed 
+        if newSw != oldSw: 
             oldSw = newSw
-
-            if newSw == 1:
-                file_name = 'click ' + str(cnt)
-                print(file_name)
+            if newSw: 
+                print('Click'+str(cnt))
                 cnt += 1
-            time.sleep(0.2)
-
-except KeyboardInterrupt:
+            time.sleep(0.2) 
+except KeyboardInterrupt: 
     pass
-
-GPIO.cleanup()
